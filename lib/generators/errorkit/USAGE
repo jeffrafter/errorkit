@@ -1,0 +1,19 @@
+Usage:
+  rails generate errorkit:install [options]
+
+Runtime options:
+  -f, [--force]    # Overwrite files that already exist
+  -p, [--pretend]  # Run but do not make any changes
+  -s, [--skip]     # Skip files that already exist
+  -q, [--quiet]    # Supress status output
+
+Description:
+    ErrorKit allows you to track errors within your application and generate a
+    notification when they happen.
+
+Example:
+    rails generate errorkit:install
+
+    This generator will create an error
+    model and corresponding migration. It will also install view templates
+    for the error notifier.

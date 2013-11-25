@@ -61,3 +61,12 @@ Once you have installed the gem, you need to run the generator:
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Acknowledgements
+
+http://geekmonkey.org/articles/29-exception-applications-in-rails-3-2
+https://github.com/sheerun/rails4-bootstrap/issues/26
+https://github.com/sheerun/rails4-bootstrap/commit/5c2df5a108ad204bc407183b959bb355ff5ed53d
+http://stackoverflow.com/questions/15459143/how-to-rescue-from-actiondispatchparamsparserparseerror-in-rails-4
+https://github.com/mirego/gaffe
+https://github.com/mirego/gaffe/blob/master/lib/gaffe/errors.rb

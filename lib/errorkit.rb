@@ -34,12 +34,11 @@ module Errorkit
           exception: exception.class.to_s,
           message: exception.message,
           backtrace: clean_backtrace(exception),
-          params: filtered_params(request).to_json,
+          params: filtered_parameters(request).to_json,
           session: filtered_session(request).to_json,
-          remote_ip: request.remote_ip,
-          url: request.url,
+          remote_ip: request.remote_ip.to_s,
           controller: (env['action_controller.instance'].controller_name rescue nil),
-          action: (env['action_controller.instance'].action_name rescue nil)),
+          action: (env['action_controller.instance'].action_name rescue nil))
 
         env['errorkit.notified'] = error.notify!
         env['errorkit.error'] = error
@@ -62,8 +61,8 @@ module Errorkit
     @version ||= `cd #{Rails.root.to_s} && git rev-parse HEAD`.chomp rescue nil
   end
 
-  def self.filtered_params(request)
-    request.filtered_params
+  def self.filtered_parameters(request)
+    request.filtered_parameters
   end
 
   def self.filtered_session(request)

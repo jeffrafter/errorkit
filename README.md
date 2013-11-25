@@ -70,3 +70,8 @@ https://github.com/sheerun/rails4-bootstrap/commit/5c2df5a108ad204bc407183b959bb
 http://stackoverflow.com/questions/15459143/how-to-rescue-from-actiondispatchparamsparserparseerror-in-rails-4
 https://github.com/mirego/gaffe
 https://github.com/mirego/gaffe/blob/master/lib/gaffe/errors.rb
+
+
+https://github.com/rails/rails/blob/f886fe2d8ccc900cde2629577e5c0be8c7d4c67f/actionpack/lib/action_dispatch/middleware/exception_wrapper.rb
+https://github.com/rails/rails/blob/c2cb83b1447fee6cee496acd0816c0117b68b687/guides/source/layouts_and_rendering.md
+http://stackoverflow.com/questions/15459143/how-to-rescue-from-actiondispatchparamsparserparseerror-in-rails-4

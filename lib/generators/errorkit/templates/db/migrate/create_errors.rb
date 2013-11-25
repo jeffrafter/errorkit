@@ -12,6 +12,7 @@ class CreateErrors < ActiveRecord::Migration
       t.text   :backtrace
       t.string :controller
       t.string :action
+      t.string :remote_ip
       t.text :session
       t.text :params
       t.string :worker

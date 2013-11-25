@@ -1,4 +1,8 @@
 require "errorkit/version"
+require 'errorkit/config'
+require 'errorkit/ignorable_error'
+require 'errorkit/errors_controller'
+require 'errorkit/errors_notifier'
 
 module Errorkit
   require 'errorkit/engine' if defined?(Rails)
@@ -21,6 +25,8 @@ module Errorkit
     exception = env['action_dispatch.exception']
     unless config.ignore_exception?(exception) || config.ignore_agent?(env['HTTP_USER_AGENT'])
       begin
+        request = ActionDispatch::Request.new(env)
+
         error = config.errors_class.create(
           server: server,
           environment: environment,
@@ -28,11 +34,12 @@ module Errorkit
           exception: exception.class.to_s,
           message: exception.message,
           backtrace: clean_backtrace(exception),
-          env: filtered_env(env),
-          params: filtered_params(env),
-          session: filtered_session(env),
+          params: filtered_params(request).to_json,
+          session: filtered_session(request).to_json,
+          remote_ip: request.remote_ip,
+          url: request.url,
           controller: (env['action_controller.instance'].controller_name rescue nil),
-          action: (env['action_controller.instance'].action_name rescue nil))
+          action: (env['action_controller.instance'].action_name rescue nil)),
 
         env['errorkit.notified'] = error.notify!
         env['errorkit.error'] = error
@@ -44,7 +51,7 @@ module Errorkit
   end
 
   def self.environment
-    Rails.environment.to_s if defined?(Rails)
+    Rails.env.to_s if defined?(Rails)
   end
 
   def self.server
@@ -55,19 +62,21 @@ module Errorkit
     @version ||= `cd #{Rails.root.to_s} && git rev-parse HEAD`.chomp rescue nil
   end
 
-  def self.filtered_env(env)
-    env
+  def self.filtered_params(request)
+    request.filtered_params
   end
 
-  def self.filtered_params(env)
-    env
-  end
-
-  def self.filtered_session(env)
-    env
+  def self.filtered_session(request)
+    session = request.session.dup
+    session.delete(:session_id)
+    session
   end
 
   def self.clean_backtrace(exception)
+    backtrace = Rails.backtrace_cleaner.send(:filter, exception.backtrace) if defined?(Rails) && Rails.respond_to?(:backtrace_cleaner)
+    backtrace ||= exception.backtrace
+    backtrace ||= []
+    backtrace.join("\n")
   end
 
 end

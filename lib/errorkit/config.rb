@@ -26,7 +26,6 @@ module Errorkit
       @alert_threshold = 0.4
     end
 
-    # Helper method for the block syntax
     def config
       self
     end

@@ -15,6 +15,8 @@ module Errorkit
       generate_migration("create_errors")
 
       # Ensure the destination structure
+      empty_directory "config"
+      empty_directory "initializers"
       empty_directory "app"
       empty_directory "app/models"
       empty_directory "app/views"
@@ -25,11 +27,13 @@ module Errorkit
       empty_directory "lib"
 
       # Fill out some templates (for now, this is just straight copy)
+      template "config/initializers/errorkit.rb", "config/initializers/errorkit.rb"
       template "app/models/error.rb", "app/models/error.rb"
       template "spec/models/error_spec.rb", "spec/models/error_spec.rb"
 
       # Don't treat these like templates
       copy_file "app/views/errors/notify.html.erb", "app/views/errors/notify.html.erb"
+      copy_file "app/views/errors/error.html.erb", "app/views/errors/error.html.erb"
 
       # RSpec needs to be in the development group to be used in generators
       gem_group :test, :development do

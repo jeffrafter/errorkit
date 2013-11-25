@@ -4,7 +4,7 @@ module Errorkit
 
     helper_method :error, :exception, :status_code, :status_text
 
-    layout Errorkit.config.errors_layout
+    layout :error_layout
 
     def show
       begin
@@ -40,6 +40,10 @@ module Errorkit
 
     def append_view_paths
       append_view_path Pathname.new(File.expand_path('../../../', __FILE__)).join('lib', 'generators', 'errorkit', 'templates', 'app', 'views')
+    end
+
+    def error_layout
+      Errorkit.config.errors_layout
     end
   end
 end

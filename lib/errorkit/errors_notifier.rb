@@ -2,9 +2,9 @@ require 'action_mailer'
 
 module Errorkit
   class ErrorsNotifier < ActionMailer::Base
+    before_filter :append_view_paths
+
     self.mailer_name = 'errors'
-    self.append_view_path Pathname.new(File.expand_path('../../../', __FILE__)).join('lib', 'generators', 'errorkit', 'templates', 'app', 'views')
-    self.append_view_path Rails.root.join('app', 'views') if defined?(Rails)
 
     def error_notification(error_id)
       @error = Error.find(error_id)
@@ -22,6 +22,11 @@ module Errorkit
 
     def compose_subject(error)
       "[#{err.environment || 'Error'}] #{err.exception}: #{err.message}"
+    end
+
+    def append_view_paths
+      append_view_path Pathname.new(File.expand_path('../../../', __FILE__)).join('lib', 'generators', 'errorkit', 'templates', 'app', 'views')
+      append_view_path Rails.root.join('app', 'views') if defined?(Rails)
     end
   end
 end

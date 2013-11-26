@@ -50,7 +50,7 @@ You can override the default configuration in config/initializers/errorkit.rb.
 
 From this point you can customize most things. Errorkit handles errors
 that occur within your application and displays a corresponding template.
-By default, it uses app/views/errors/error.html.erb which you should
+By default, it uses app/views/errors/show.html.erb which you should
 customize. If you want to have specific templates for specific pages
 you can create them by name:
 
@@ -68,7 +68,7 @@ You can extend this list of defaults as well. See
 http://guides.rubyonrails.org/layouts_and_rendering.html for more information.
 
 It is also possible to customize the notification template found at
-app/views/errors/notification.html.erb.
+app/views/errors/error_notification.html.erb.
 
 ## Custom Errors Controller
 

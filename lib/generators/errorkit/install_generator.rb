@@ -32,8 +32,8 @@ module Errorkit
       template "spec/models/error_spec.rb", "spec/models/error_spec.rb"
 
       # Don't treat these like templates
-      copy_file "app/views/errors/notification.html.erb", "app/views/errors/notification.html.erb"
-      copy_file "app/views/errors/error.html.erb", "app/views/errors/error.html.erb"
+      copy_file "app/views/errors/error_notification.html.erb", "app/views/errors/error_notification.html.erb"
+      copy_file "app/views/errors/show.html.erb", "app/views/errors/show.html.erb"
 
       # RSpec needs to be in the development group to be used in generators
       gem_group :test, :development do

@@ -2,7 +2,7 @@ require "errorkit/version"
 require 'errorkit/config'
 require 'errorkit/ignorable_error'
 require 'errorkit/errors_controller'
-require 'errorkit/errors_notifier'
+require 'errorkit/errors_mailer'
 
 module Errorkit
   require 'errorkit/engine' if defined?(Rails)
@@ -23,10 +23,9 @@ module Errorkit
 
   def self.server_error(env)
     exception = env['action_dispatch.exception']
-    unless config.ignore_exception?(exception) || config.ignore_agent?(env['HTTP_USER_AGENT'])
+    unless config.errors_class.nil? || config.ignore_exception?(exception) || config.ignore_agent?(env['HTTP_USER_AGENT'])
       begin
         request = ActionDispatch::Request.new(env)
-
         error = config.errors_class.create(
           server: server,
           environment: environment,
@@ -40,7 +39,7 @@ module Errorkit
           controller: (env['action_controller.instance'].controller_name rescue nil),
           action: (env['action_controller.instance'].action_name rescue nil))
 
-        env['errorkit.notified'] = error.notify!
+        env['errorkit.notified'] = send_notification(error)
         env['errorkit.error'] = error
       rescue Errorkit::IgnorableError
         # noop
@@ -78,4 +77,10 @@ module Errorkit
     backtrace.join("\n")
   end
 
+  def self.send_notification(error)
+    return if config.mailer_recipients.blank? || config.mailer_sender.blank?
+
+    # TODO, throttle
+    config.errors_mailer.error_notification(error.id).deliver
+  end
 end

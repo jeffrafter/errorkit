@@ -1,7 +1,7 @@
 require 'action_mailer'
 
 module Errorkit
-  class ErrorsNotifier < ActionMailer::Base
+  class ErrorsMailer < ActionMailer::Base
     before_filter :append_view_paths
 
     helper_method :error
@@ -11,10 +11,10 @@ module Errorkit
     def error_notification(error_id)
       @error = Error.find(error_id)
 
-      mail(:to => notifier_recipients,
-           :from => notifier_sender,
-           :subject => notifier_subject) do |format|
-        format.html { render "#{mailer_name}/notification" }
+      mail(:to => mailer_recipients,
+           :from => mailer_sender,
+           :subject => mailer_subject) do |format|
+        format.html { render "#{mailer_name}/error_notification" }
       end
     end
 
@@ -24,15 +24,15 @@ module Errorkit
       @error
     end
 
-    def notifier_recipients
-      Errorkit.config.notifier_recipients
+    def mailer_recipients
+      Errorkit.config.mailer_recipients
     end
 
-    def notifier_sender
-      Errorkit.config.notifier_sender
+    def mailer_sender
+      Errorkit.config.mailer_sender
     end
 
-    def notifier_subject
+    def mailer_subject
       "[#{error.environment || 'Error'}] #{error.exception}: #{error.message}"
     end
 

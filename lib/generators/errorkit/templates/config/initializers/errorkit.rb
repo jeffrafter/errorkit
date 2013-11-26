@@ -34,11 +34,11 @@ Errorkit.configure do
 
   # The recipients you want to notify when there is an error. If you leave this
   # blank then notifications will not be sent.
-  config.notifier_recipients = ["you@example.com"]
+  config.mailer_recipients = ["you@example.com"]
 
   # The sender of the error notifications. If you leave this blank then
   # notifications will not be sent.
-  config.notifier_sender = ["errors@example.com"]
+  config.mailer_sender = ["errors@example.com"]
 
   # Overriding the default error pages allows you to customize their look
   # and feel but still have them served through your application. You can
@@ -50,11 +50,15 @@ Errorkit.configure do
   #
   # By default, no layout is used (layout is false).
 
+  # By default, Errorkit sends notifications with its own mailer. To override
+  # this, set:
+  #
+  #    config.errors_mailer = MyMailer
 
   # By default, Errorkit responds to errors with its own controller. To override
   # this, set:
   #
-  #    config.errors_controller = ErrorsController
+  #    config.errors_controller = MyController
 
 
   # To persist errors, you must specify a class that acts like an ActiveRecord

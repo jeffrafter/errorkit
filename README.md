@@ -20,20 +20,6 @@ ErrorKit can throttle error notifications to prevent overwhelming your inbox.
 Finally, ErrorKit keeps track of how many successful responses are made as well
 so that it can track your error rate per server and per release.
 
-## Kinds of errors
-Errorkit::Notifier
-  server_error
-  background_error
-  javascript_error
-
-errors # views
-
-error_controller for javascript?
-error.rb for activerecord
-
-mark the error notification at, if missing there was an error creating it
-
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -53,6 +39,76 @@ Or install it yourself as:
 Once you have installed the gem, you need to run the generator:
 
     $ rails g errorkit:install
+
+After you run the generator you need to migrate the database:
+
+    $ rails db:migrate
+
+You can override the default configuration in config/initializers/errorkit.rb.
+
+## Custom Views
+
+From this point you can customize most things. Errorkit handles errors
+that occur within your application and displays a corresponding template.
+By default, it uses app/views/errors/error.html.erb which you should
+customize. If you want to have specific templates for specific pages
+you can create them by name:
+
+    bad_request.html.erb
+    forbidden.html.erb
+    internal_server_error.html.erb
+    method_not_allowed.html.erb
+    not_acceptable.html.erb
+    not_found.html.erb
+    not_implemented.html.erb
+    unauthorized.html.erb
+    unprocessable_entity.html.erb
+
+You can extend this list of defaults as well. See
+http://guides.rubyonrails.org/layouts_and_rendering.html for more information.
+
+It is also possible to customize the notification template found at
+app/views/errors/notification.html.erb.
+
+## Custom Errors Controller
+
+You can override the errors_controller by creating a new one in your application:
+
+    class MyController < Errorkit::ErrorsController
+    end
+
+You can even make this descend from your own application controller (though
+this may generate additional errors if there is a problem in your controller)
+
+    class MyController < ApplicationController
+      def show
+        # You must implement show
+      end
+    end
+
+Once created, you must tell Errorkit to use this controller in the initializer:
+
+    config.errors_controller = MyController
+
+## Custom Errors Mailer
+
+You can override the errors_mailer by creating a new one in your application:
+
+    class MyMailer < Errorkit::ErrorsMailer
+    end
+
+You can descend from ActionMailer::Base if you want to completely override the
+behavior. However you must implement error_notification:
+
+    class MyMailer < ActionMailer::Base
+      def error_notification(error_id)
+        # You must implement error_notification
+      end
+    end
+
+Once created, you must tell Errorkit to use this mailer in the initializer:
+
+    config.errors_mailer = MyMailer
 
 ## Contributing
 

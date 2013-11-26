@@ -4,16 +4,18 @@ module Errorkit
       :ignore_agents,
       :ignore_exceptions,
       :errors_class,
+      :errors_mailer,
       :errors_controller,
       :errors_layout,
-      :notifier_recipients,
-      :notifier_sender,
+      :mailer_recipients,
+      :mailer_sender,
       :max_notifications_per_minute,
       :max_notifications_per_quarter_hour,
       :alert_threshold
 
 
     def initialize
+      @errors_mailer = Errorkit::ErrorsMailer
       @errors_controller = Errorkit::ErrorsController
       @errors_layout = false
       @ignore_exceptions = []

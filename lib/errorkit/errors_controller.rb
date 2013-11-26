@@ -10,7 +10,7 @@ module Errorkit
       begin
         render "errors/#{rescue_response}", status: status_code
       rescue ActionView::MissingTemplate
-        render "errors/error", status: status_code
+        render "errors/show", status: status_code
       end
     end
 

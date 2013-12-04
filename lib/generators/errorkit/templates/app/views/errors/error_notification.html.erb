@@ -1,7 +1,38 @@
-There was an error:
-
-<%= error.exception %>
+An <strong><%= error.exception %></strong> error occurred in <%= error.environment %> (error: <%= error.to_param %>):
 
 <p>
 <%= error.message %>
 </p>
+
+<h5>Backtrace</h5>
+<pre><%= error.backtrace %></pre>
+
+<% if error.controller %>
+<h5>Session</h5>
+<pre><%= error.params %></pre>
+
+<h5>Params</h5>
+<pre><%= error.session %></pre>
+<% end %>
+
+<% if error.worker %>
+<h5>Payload</h5>
+<pre>
+<%= error.payload %>
+</pre>
+
+<h5>Details</h5>
+<ul>
+  <li>Environment: <%= error.environment %></li>
+  <li>Server: <%= error.server %></li>
+  <li>Version: <%= error.version %></li>
+  <% if error.controller %>
+  <li>Action: <%= error.controller %>#<%= error.action %></li>
+  <li>IP: <%= error.remote_ip %></li>
+  <li>URL: <%= error.url %></li>
+  <% end %>
+  <% if error.worker %>
+  <li>Worker: <%= error.worker %></li>
+  <li>Queue: <%= error.queue %></li>
+  <% end %>
+</ul>

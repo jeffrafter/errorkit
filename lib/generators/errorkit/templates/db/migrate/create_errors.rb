@@ -8,7 +8,7 @@ class CreateErrors < ActiveRecord::Migration
       t.string :server
       t.string :version
       t.string :exception
-      t.string :message
+      t.text   :message
       t.text   :backtrace
       t.string :controller
       t.string :action
@@ -18,7 +18,7 @@ class CreateErrors < ActiveRecord::Migration
       t.string :worker
       t.string :queue
       t.string :payload
-      t.string :url
+      t.text :url
       t.integer :user_id
       t.integer :subject_id
       t.string :subject_type

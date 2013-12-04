@@ -33,7 +33,10 @@ module Errorkit
     end
 
     def mailer_subject
-      "[#{error.environment || 'Error'}] #{error.exception}: #{error.message}"
+      message = error.message
+      message = message[0..27] + '...' if message.length > 30
+
+      "[#{error.environment || 'Error'}] #{error.exception}: #{message}"
     end
 
     def append_view_paths

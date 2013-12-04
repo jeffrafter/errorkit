@@ -3,6 +3,7 @@ require 'errorkit/config'
 require 'errorkit/ignorable_error'
 require 'errorkit/errors_controller'
 require 'errorkit/errors_mailer'
+require 'errorkit/sidekiq'
 
 module Errorkit
   require 'errorkit/engine' if defined?(Rails)
@@ -46,6 +47,28 @@ module Errorkit
       end
     end
     config.errors_controller.action(:show).call(env)
+  end
+
+  def self.background_error(worker, payload, queue, exception)
+    unless config.errors_class.nil? || config.ignore_exception?(exception)
+      begin
+        error = config.errors_class.create(
+          server: server,
+          environment: environment,
+          version: application_version,
+          exception: exception.class.to_s,
+          message: exception.message,
+          backtrace: clean_backtrace(exception),
+          worker: worker,
+          queue: queue,
+          payload: payload
+        )
+        send_notification(error)
+        error
+      rescue Errorkit::IgnorableError
+        # noop
+      end
+    end
   end
 
   def self.environment

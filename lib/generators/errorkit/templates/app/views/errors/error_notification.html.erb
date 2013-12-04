@@ -1,27 +1,39 @@
-An <strong><%= error.exception %></strong> error occurred in <%= error.environment %> (error: <%= error.to_param %>):
+<h2 style="color:red">An <strong><%= error.exception %></strong> occurred in <%= error.environment %> (error: <%= error.to_param %>):</h2>
+<hr>
 
-<p>
+<blockquote style="font-size: 1.5em">
 <%= error.message %>
-</p>
+</blockquote>
 
-<h5>Backtrace</h5>
-<pre><%= error.backtrace %></pre>
+<h3>Backtrace</h3>
+<pre style="white-space:pre-wrap"><%= error.backtrace %></pre>
 
 <% if error.controller %>
-<h5>Session</h5>
-<pre><%= error.params %></pre>
+  <h3>Session</h3>
+  <% if Errorkit.config.format_errors && defined?(ap) %>
+    <%= ap(JSON.parse(error.session), indent: 2).html_safe rescue error.session %>
+  <% else %>
+    <pre style="white-space:pre-wrap"><%= error.session %></pre>
+  <% end %>
 
-<h5>Params</h5>
-<pre><%= error.session %></pre>
+  <h3>Params</h3>
+  <% if Errorkit.config.format_errors && defined?(ap) %>
+    <%= ap(JSON.parse(error.params), indent: 2).html_safe rescue error.params %>
+  <% else %>
+    <pre style="white-space:pre-wrap"><%= error.params %></pre>
+  <% end %>
 <% end %>
 
 <% if error.worker %>
-<h5>Payload</h5>
-<pre>
-<%= error.payload %>
-</pre>
+  <h3>Payload</h3>
+  <% if Errorkit.config.format_errors && defined?(ap) %>
+    <%= ap(JSON.parse(error.payload), indent: 2).html_safe rescue error.payload %>
+  <% else %>
+    <pre style="white-space:pre-wrap"><%= error.payload %></pre>
+  <% end %>
+<% end %>
 
-<h5>Details</h5>
+<h3>Details</h3>
 <ul>
   <li>Environment: <%= error.environment %></li>
   <li>Server: <%= error.server %></li>
@@ -36,3 +48,5 @@ An <strong><%= error.exception %></strong> error occurred in <%= error.environme
   <li>Queue: <%= error.queue %></li>
   <% end %>
 </ul>
+
+

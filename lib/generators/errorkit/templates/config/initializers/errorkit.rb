@@ -75,6 +75,13 @@ Errorkit.configure do
   # To turn off throttling set these values to nil
 
 
+  # You may want to turn off formatting in the emails (it is only on if you
+  # have the awesome_print gem installed):
+  #
+  #    config.format_errors = true
+  #
+  # To turn off formatting set this to false
+
   # It is possible to create alerts that occur only when the number of
   # errors per request exceeds a specific percentage.
   #

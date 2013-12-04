@@ -17,7 +17,7 @@ class CreateErrors < ActiveRecord::Migration
       t.text :params
       t.string :worker
       t.string :queue
-      t.string :payload
+      t.text :payload
       t.text :url
       t.integer :user_id
       t.integer :subject_id

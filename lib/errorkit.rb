@@ -59,9 +59,9 @@ module Errorkit
           exception: exception.class.to_s,
           message: exception.message,
           backtrace: clean_backtrace(exception),
-          worker: worker,
-          queue: queue,
-          payload: payload
+          worker: worker.class.to_s,
+          queue: queue.to_s,
+          payload: payload.to_json
         )
         send_notification(error)
         error

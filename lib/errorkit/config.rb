@@ -11,6 +11,7 @@ module Errorkit
       :mailer_sender,
       :max_notifications_per_minute,
       :max_notifications_per_quarter_hour,
+      :format_errors,
       :alert_threshold
 
 
@@ -25,6 +26,7 @@ module Errorkit
       @ignore_agents = %w{Googlebot MSNBot Baiduspider Bing Inktomi Yahoo AskJeeves FastCrawler InfoSeek Lycos YandexBot NewRelicPinger Pingdom}
       @max_notifications_per_minute = 5
       @max_notifications_per_quarter_hour = 10
+      @format_errors = true
       @alert_threshold = 0.4
     end
 

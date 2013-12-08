@@ -17,7 +17,6 @@ module Errorkit
 
     def initialize
       @errors_mailer = Errorkit::ErrorsMailer
-      @errors_controller = Errorkit::ErrorsController
       @errors_layout = false
       @ignore_exceptions = []
       @ignore_exceptions << ::ActiveRecord::RecordNotFound if defined? ::ActiveRecord::RecordNotFound
@@ -43,6 +42,12 @@ module Errorkit
       return false if @ignore_agents.nil? || @ignore_agents.length == 0
       @ignore_agent_re ||= /(#{@ignore_agents.join('|')})/i
       !!(agent =~ @ignore_agents_re)
+    end
+
+    def errors_controller
+      return @errors_controller if defined?(@errors_controller)
+      require 'errorkit/errors_controller'
+      @errors_controller = Errorkit::ErrorsController
     end
   end
 end

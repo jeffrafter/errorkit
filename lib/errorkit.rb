@@ -1,7 +1,6 @@
 require "errorkit/version"
 require 'errorkit/config'
 require 'errorkit/ignorable_error'
-require 'errorkit/errors_controller'
 require 'errorkit/errors_mailer'
 require 'errorkit/sidekiq'
 
@@ -88,9 +87,17 @@ module Errorkit
   end
 
   def self.filtered_session(request)
+    begin
+      require 'action_dispatch/http/parameter_filter'
+    rescue LoadError
+      return {}
+    end
     session = request.session.dup
     session.delete(:session_id)
-    session
+    session.delete(:_csrf_token)
+    param_filter = request.env.fetch("action_dispatch.parameter_filter")
+    param_filter = ActionDispatch::Http::ParameterFilter.new(param_filter)
+    param_filter.filter(session.to_hash)
   end
 
   def self.clean_backtrace(exception)

@@ -1,5 +1,5 @@
 module Errorkit
-  class ErrorsController < ActionController::Base
+  class ErrorsController < ::ApplicationController
     before_filter :append_view_paths
 
     helper_method :error, :exception, :status_code, :status_text

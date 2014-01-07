@@ -2,7 +2,12 @@ require "errorkit/version"
 require 'errorkit/config'
 require 'errorkit/ignorable_error'
 require 'errorkit/errors_mailer'
-require 'errorkit/sidekiq'
+
+begin
+  require 'errorkit/sidekiq'
+rescue LoadError
+  # Sidekiq is not available
+end
 
 module Errorkit
   require 'errorkit/engine' if defined?(Rails)

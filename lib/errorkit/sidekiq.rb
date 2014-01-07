@@ -16,7 +16,7 @@ module Errorkit
   end
 end
 
-# Only connect if Sidekiq
+# Only connect if Sidekiq exists
 if defined?(::Sidekiq)
   ::Sidekiq.configure_server do |config|
     config.server_middleware do |chain|

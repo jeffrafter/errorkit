@@ -13,6 +13,7 @@ class CreateErrors < ActiveRecord::Migration
       t.string :controller
       t.string :action
       t.string :remote_ip
+      t.text :request_env
       t.text :session
       t.text :params
       t.string :worker

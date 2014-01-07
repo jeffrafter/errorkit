@@ -41,8 +41,10 @@ module Errorkit
           params: filtered_parameters(request).to_json,
           session: filtered_session(request).to_json,
           remote_ip: request.remote_ip.to_s,
+          request_env: filtered_request_env(request).to_json,
           controller: (env['action_controller.instance'].controller_name rescue nil),
-          action: (env['action_controller.instance'].action_name rescue nil))
+          action: (env['action_controller.instance'].action_name rescue nil),
+          url: request.url)
 
         env['errorkit.notified'] = send_notification(error)
         env['errorkit.error'] = error
@@ -89,6 +91,27 @@ module Errorkit
 
   def self.filtered_parameters(request)
     request.filtered_parameters
+  end
+
+  REQUEST_ENV = %w(SERVER_NAME PATH_INFO REMOTE_HOST HTTP_ACCEPT_ENCODING
+    HTTP_USER_AGENT SERVER_PROTOCOL HTTP_CACHE_CONTROL HTTP_ACCEPT_LANGUAGE HTTP_HOST
+    REMOTE_ADDR SERVER_SOFTWARE HTTP_KEEP_ALIVE HTTP_REFERER HTTP_COOKIE HTTP_ACCEPT_CHARSET
+    REQUEST_URI SERVER_PORT GATEWAY_INTERFACE QUERY_STRING REMOTE_USER HTTP_ACCEPT
+    REQUEST_METHOD HTTP_CONNECTION)
+
+  def self.filtered_request_env(request)
+    begin
+      require 'action_dispatch/http/parameter_filter'
+    rescue LoadError
+      return {}
+    end
+    env = {}
+    REQUEST_ENV.each do |var|
+      env[var] = request.env.fetch(var)
+    end
+    param_filter = request.env.fetch("action_dispatch.parameter_filter")
+    param_filter = ActionDispatch::Http::ParameterFilter.new(param_filter)
+    param_filter.filter(env)
   end
 
   def self.filtered_session(request)

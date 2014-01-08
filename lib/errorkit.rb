@@ -44,7 +44,7 @@ module Errorkit
           request_env: filtered_request_env(request).to_json,
           controller: (env['action_controller.instance'].controller_name rescue nil),
           action: (env['action_controller.instance'].action_name rescue nil),
-          url: request.url)
+          url: request.original_url)
 
         env['errorkit.notified'] = send_notification(error)
         env['errorkit.error'] = error
@@ -107,7 +107,7 @@ module Errorkit
     end
     env = {}
     REQUEST_ENV.each do |var|
-      env[var] = request.env.fetch(var)
+      env[var] = request.env[var]
     end
     param_filter = request.env.fetch("action_dispatch.parameter_filter")
     param_filter = ActionDispatch::Http::ParameterFilter.new(param_filter)

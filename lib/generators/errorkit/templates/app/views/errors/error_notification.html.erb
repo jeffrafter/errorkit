@@ -9,6 +9,13 @@
 <pre style="white-space:pre-wrap"><%= error.backtrace %></pre>
 
 <% if error.controller %>
+  <h3>Env</h3>
+  <% if Errorkit.config.format_errors && defined?(ap) %>
+    <%= ap(JSON.parse(error.request_env), indent: 2).html_safe rescue error.request_env %>
+  <% else %>
+    <pre style="white-space:pre-wrap"><%= error.request_env %></pre>
+  <% end %>
+
   <h3>Session</h3>
   <% if Errorkit.config.format_errors && defined?(ap) %>
     <%= ap(JSON.parse(error.session), indent: 2).html_safe rescue error.session %>

@@ -113,6 +113,15 @@ Once created, you must tell Errorkit to use this mailer in the initializer:
 
     config.errors_mailer = MyMailer
 
+## Trying things in development
+
+In order to see Errorkit working in development, you need to change your
+`config/environments/development.rb` and add:
+
+    config.consider_all_requests_local = false
+
+Make sure you restart rails.
+
 ## Contributing
 
 1. Fork it

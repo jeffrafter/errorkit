@@ -9,6 +9,12 @@ rescue LoadError
   # Sidekiq is not available
 end
 
+begin
+  require 'errorkit/resque'
+rescue LoadError
+  # Sidekiq is not available
+end
+
 module Errorkit
   require 'errorkit/engine' if defined?(Rails)
 

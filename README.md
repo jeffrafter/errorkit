@@ -47,7 +47,13 @@ After you run the generator you need to migrate the database:
 
     $ rails db:migrate
 
-You can override the default configuration in config/initializers/errorkit.rb.
+You can override the default configuration in `config/initializers/errorkit.rb`. You'll want to change the
+
+    config.mailer_recipients = ["you@example.com"]
+
+and:
+
+    config.mailer_sender = ["errors@example.com"]
 
 ## Custom Views
 

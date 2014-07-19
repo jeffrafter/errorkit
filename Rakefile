@@ -28,7 +28,7 @@ namespace :generator do
 
     FileUtils.mkdir_p("spec/tmp")
 
-    system "cd spec/tmp && rails new sample"
+    system "cd spec/tmp && rails new sample --skip-spring"
 
     # bundle
     gem_root = File.expand_path(File.dirname(__FILE__))

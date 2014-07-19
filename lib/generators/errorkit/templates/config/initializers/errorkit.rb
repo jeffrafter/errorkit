@@ -88,4 +88,8 @@ Errorkit.configure do
   #    config.alert_threshold = 0.4
   #
   # To turn off error rate alerts, set this to nil
+
+  # If you are using resque you need to register errorkit
+  #
+  #    config.register_resque
 end

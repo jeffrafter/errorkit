@@ -49,5 +49,14 @@ module Errorkit
       require 'errorkit/errors_controller'
       @errors_controller = Errorkit::ErrorsController
     end
+
+    def register_resque
+      if defined?(Rails) && defined?(Resque)
+        if Rails.env.production? || Rails.env.staging?
+          Resque::Failure::Multiple.classes = [Resque::Failure::Redis, Resque::Failure::Errorkit]
+          Resque::Failure.backend = Resque::Failure::Multiple
+        end
+      end
+    end
   end
 end

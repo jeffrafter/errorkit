@@ -13,9 +13,4 @@ if defined?(::Resque)
       end
     end
   end
-
-  return if defined?(Rails) && !Rails.env.production? && !Rails.env.staging?
-
-  Resque::Failure::Multiple.classes = [Resque::Failure::Redis, Resque::Failure::Errorkit]
-  Resque::Failure.backend = Resque::Failure::Multiple
 end

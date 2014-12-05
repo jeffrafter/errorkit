@@ -2,7 +2,7 @@
 #
 # Create an errors table for managing errors.
 class CreateErrors < ActiveRecord::Migration
-  def self.up
+  def change
     create_table :errors do |t|
       t.string :environment
       t.string :server
@@ -31,9 +31,5 @@ class CreateErrors < ActiveRecord::Migration
     add_index :errors, :exception
     add_index :errors, :created_at
     add_index :errors, :resolved_at
-  end
-
-  def self.down
-    drop_table :errors
   end
 end

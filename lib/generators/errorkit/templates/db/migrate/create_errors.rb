@@ -4,12 +4,12 @@
 class CreateErrors < ActiveRecord::Migration
   def change
     create_table :errors do |t|
-      t.string :environment
-      t.string :server
-      t.string :version
-      t.string :exception
-      t.text :message
-      t.text :backtrace
+      t.string :environment, null: false
+      t.string :server, null: false
+      t.string :version, null: false
+      t.string :exception, null: false
+      t.text :message, null: false
+      t.text :backtrace, null: false
       t.string :controller
       t.string :action
       t.inet :remote_ip

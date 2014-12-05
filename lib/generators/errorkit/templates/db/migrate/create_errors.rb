@@ -8,11 +8,11 @@ class CreateErrors < ActiveRecord::Migration
       t.string :server
       t.string :version
       t.string :exception
-      t.text   :message
-      t.text   :backtrace
+      t.text :message
+      t.text :backtrace
       t.string :controller
       t.string :action
-      t.string :remote_ip
+      t.inet :remote_ip
       t.text :request_env
       t.text :session
       t.text :params

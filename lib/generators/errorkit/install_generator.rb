@@ -16,7 +16,7 @@ module Errorkit
 
       # Ensure the destination structure
       empty_directory "config"
-      empty_directory "initializers"
+      empty_directory "config/initializers"
       empty_directory "app"
       empty_directory "app/models"
       empty_directory "app/views"

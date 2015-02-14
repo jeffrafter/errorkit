@@ -1,18 +1,19 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Error do
   let(:error) { Error.new }
 
   it "resolves errors" do
     now = Time.now
-    Time.stub(:now).and_return(now)
-    error.should_receive(:update_attribute).with(:resolved_at, now)
+    allow(Time).to receive(:now).and_return(now)
+    expect(error).to receive(:update_attribute).with(:resolved_at, now)
     error.resolve!
   end
 
   it "does not resolve already resolved errors" do
-    error.should_not_receive(:update_attribute)
+    expect(error).to_not receive(:update_attribute)
     error.resolved_at = Time.now
     error.resolve!
   end
 end
+

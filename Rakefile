@@ -20,7 +20,7 @@ namespace :generator do
     FileUtils.mkdir_p("spec/tmp")
 
     system "cd spec/tmp && rails new sample --skip-spring"
-    system "cp .ruby-version spec/tmp/sample"
+    system "cp .ruby-version spec/tmp/sample" if File.exist?(".ruby-version")
 
     # bundle
     gem_root = File.expand_path(File.dirname(__FILE__))
@@ -45,7 +45,7 @@ namespace :generator do
 
   desc "Run the #{gem_name} generator"
   task gem_name do
-    system "cd spec/tmp/sample; bin/rails g #{gem_name}:install --force && bundle exec rake db:migrate db:test:prepare"
+    system "cd spec/tmp/sample; bin/rails g #{gem_name}:install --force && bundle exec rake db:migrate"
   end
 
 end

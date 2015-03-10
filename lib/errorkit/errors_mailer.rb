@@ -4,7 +4,7 @@ module Errorkit
   class ErrorsMailer < ActionMailer::Base
     before_filter :append_view_paths
 
-    helper_method :error
+    helper_method :error, :limit
 
     self.mailer_name = 'errors'
 
@@ -22,6 +22,16 @@ module Errorkit
 
     def error
       @error
+    end
+
+    def limit(hash)
+      hash.each do |k, v|
+        if v.is_a?(Hash)
+          limit(v)
+        else
+          hash[k] = v[0..1024] + "..." if v.length > 1024
+        end
+      end
     end
 
     def mailer_recipients

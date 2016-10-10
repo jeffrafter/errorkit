@@ -2,7 +2,7 @@ require 'action_mailer'
 
 module Errorkit
   class ErrorsMailer < ActionMailer::Base
-    before_filter :append_view_paths
+    before_action :append_view_paths
 
     helper_method :error, :limit
 

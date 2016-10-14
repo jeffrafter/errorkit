@@ -2,17 +2,25 @@
 #
 # Create an errors table for managing errors.
 class CreateErrors < ActiveRecord::Migration
-  def self.up
+  def change
     create_table :errors do |t|
-      t.string :environment
-      t.string :server
-      t.string :version
-      t.string :exception
-      t.text   :message
-      t.text   :backtrace
+      t.string :environment, null: false
+      t.index :environment
+
+      t.string :server, null: false
+      t.index :server
+
+      t.string :version, null: false
+      t.index :version
+
+      t.string :exception, null: false
+      t.index :exception
+
+      t.text :message, null: false
+      t.text :backtrace, null: false
       t.string :controller
       t.string :action
-      t.string :remote_ip
+      t.inet :remote_ip
       t.text :request_env
       t.text :session
       t.text :params
@@ -20,20 +28,18 @@ class CreateErrors < ActiveRecord::Migration
       t.string :queue
       t.text :payload
       t.text :url
+
       t.integer :user_id
+      t.index :user_id
+
       t.integer :subject_id
       t.string :subject_type
+
+      t.index [:subject_id, :subject_type]
+
       t.datetime :resolved_at
 
       t.timestamps
     end
-
-    add_index :errors, :exception
-    add_index :errors, :created_at
-    add_index :errors, :resolved_at
-  end
-
-  def self.down
-    drop_table :errors
   end
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Error do
+RSpec.describe Error, type: :model do
   let(:error) { Error.new }
 
   it "resolves errors" do
@@ -16,4 +16,3 @@ describe Error do
     error.resolve!
   end
 end
-

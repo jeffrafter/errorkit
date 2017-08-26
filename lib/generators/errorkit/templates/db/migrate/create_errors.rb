@@ -25,7 +25,7 @@ class CreateErrors < ActiveRecord::Migration[5.0]
       t.string :subject_type
       t.datetime :resolved_at
 
-      t.timestamps, index: true, null: false
+      t.timestamps index: true, null: false
     end
 
     add_index :errors, :exception

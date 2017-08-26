@@ -17,15 +17,15 @@ module Errorkit
     protected
 
     def error
-      @error ||= env['errorkit.error']
+      @error ||= request.env['errorkit.error']
     end
 
     def exception
-      @exception ||= env['action_dispatch.exception']
+      @exception ||= request.env['action_dispatch.exception']
     end
 
     def status_code
-      @status_code ||= ActionDispatch::ExceptionWrapper.new(env, exception).status_code
+      @status_code ||= ActionDispatch::ExceptionWrapper.new(request.env, exception).status_code
     end
 
     def status_text
